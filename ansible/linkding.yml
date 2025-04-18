@@ -1,0 +1,6 @@
+---
+- hosts: production
+  remote_user: "{{ admin_user }}"
+  become: yes
+  roles:
+  - role: mxhzl.docker
