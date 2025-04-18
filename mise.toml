@@ -1,0 +1,4 @@
+[env]
+SOPS_AGE_KEY_FILE="/Users/maxine/.config/mise/age.txt"
+TF_LOG  = 1
+_.file = ".env.json"
