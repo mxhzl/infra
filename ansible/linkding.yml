@@ -4,3 +4,21 @@
   become: yes
   roles:
   - role: mxhzl.docker
+  - role: mxhzl.vault
+  tasks:
+  - name: Copy docker-compose.yml
+    template:
+      src: templates/linkding.env.j2
+      dest: "{{linkding_dir }}/.env"
+      vars:
+        ld_container_name: linkding
+        ld_host_port: 9090
+        ld_host_data_dir: /mnt/mxhzl/linkding
+  - name: Copy linkding .env file
+    template:
+      src: templates/linkding-docker-compose.yml.j2
+      dest: "{{ linkding_dir }}/docker-compose.yml"
+      vars:
+        ld_container_name: linkding
+        ld_host_port: 9090
+        ld_host_data_dir: /mnt/mxhzl/linkding

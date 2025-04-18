@@ -15,6 +15,3 @@
     line: '{{ admin_user }} ALL=(ALL) NOPASSWD: ALL'
     state: present
     validate: 'visudo -cf %s'
-
-- name: Create server user
-  user: name={{ server_user }} system=true create_home=true

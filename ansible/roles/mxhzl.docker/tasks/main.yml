@@ -30,3 +30,18 @@
     name: docker-ce
     state: latest
     update_cache: true
+
+- name: Download docker-volume-plugin-dostorage
+  ansible.builtin.get_url:
+    url: https://github.com/omallo/docker-volume-plugin-dostorage/releases/download/v0.4.0/docker-volume-plugin-dostorage_linux_amd64
+    dest: /usr/bin/docker-volume-plugin-dostorage
+    mode: '+x'
+
+
+- name: run docker-volume-plugin-dostorages
+  ansible.builtin.command:
+    argv:
+      - docker-volume-plugin-dostorage
+      - --access-token={{ do_token|quote}}
+      - --mount-path="/mnt/mxhzl"
+      - "&"
