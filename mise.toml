@@ -1,5 +1,4 @@
 [env]
-SOPS_AGE_KEY_FILE="/Users/maxine/.config/mise/age.txt"
 _.file = ".env.json"
 
 [tools]
