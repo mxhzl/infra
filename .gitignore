@@ -4,6 +4,9 @@
 ### Ansible ###
 *.retry
 
+.vagrant
+*.log
+
 ### Terraform ###
 # Local .terraform directories
 **/.terraform/*
@@ -42,3 +45,4 @@ terraform.rc
 
 # End of https://www.toptal.com/developers/gitignore/api/terraform,ansible
 
+.vscode
