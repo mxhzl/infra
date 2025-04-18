@@ -3,8 +3,5 @@ SOPS_AGE_KEY_FILE="/Users/maxine/.config/mise/age.txt"
 _.file = ".env.json"
 
 [tools]
-pipx = "latest"
-"pipx:ansible" = "latest"
-"pipx:ansible-lint" = "latest"
 python = "latest"
 terraform = "latest"
