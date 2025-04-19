@@ -3,8 +3,8 @@
   remote_user: "{{ admin_user }}"
   become: yes
   roles:
-  - role: mxhzl.docker
   - role: mxhzl.vault
+  - role: mxhzl.docker
   tasks:
   - name: Copy docker-compose.yml
     template:

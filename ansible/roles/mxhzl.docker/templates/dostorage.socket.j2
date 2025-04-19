@@ -1,0 +1,11 @@
+[Unit]
+Description=Socket for Docker Volume Driver for DigitalOcean
+
+[Socket]
+ListenStream=/var/run/docker/plugins/dostorage.sock
+SocketUser=root
+SocketGroup=docker
+SocketMode=0660
+
+[Install]
+WantedBy=sockets.target
