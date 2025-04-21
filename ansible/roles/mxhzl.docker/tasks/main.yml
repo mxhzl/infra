@@ -70,5 +70,5 @@
     enabled: yes
     name: dostorage.socket
 
-# - name: create docker volume
-#   shell: docker volume create --driver dostorage --name mxhzl
+- name: create docker volume
+  shell: docker volume create --driver dostorage --name mxhzl

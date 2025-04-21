@@ -3,7 +3,6 @@
 
 ### Ansible ###
 *.retry
-
 .vagrant
 *.log
 
