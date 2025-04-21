@@ -5,6 +5,7 @@
   roles:
   - role: mxhzl.vault
   - role: mxhzl.docker
+  - role: mxhzl.caddy
   tasks:
   - name: Copy docker-compose.yml
     template:
