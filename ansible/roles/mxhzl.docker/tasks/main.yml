@@ -41,34 +41,3 @@
   ansible.builtin.group:
     name: docker
     state: present
-
-- name: Download docker-volume-plugin-dostorage
-  ansible.builtin.get_url:
-    url: https://github.com/omallo/docker-volume-plugin-dostorage/releases/download/v0.4.0/docker-volume-plugin-dostorage_linux_amd64
-    dest: /usr/bin/docker-volume-plugin-dostorage
-    mode: '+x'
-
-- name: Copy dostorage service file
-  template:
-    src: templates/dostorage.service.j2
-    dest: "/usr/lib/systemd/system/dostorage.service"
-
-- name: Copy dostorage socket file
-  template:
-    src: templates/dostorage.socket.j2
-    dest: "/usr/lib/systemd/system/dostorage.socket"
-
-- name: start dostorage service
-  service:
-    state: started
-    enabled: yes
-    name: dostorage
-
-- name: start dostorage socket
-  systemd_service:
-    state: started
-    enabled: yes
-    name: dostorage.socket
-
-- name: create docker volume
-  shell: docker volume create --driver dostorage --name mxhzl

@@ -1,11 +1,11 @@
 services:
   linkding:
-    container_name: "{{ ld_container_name }}"
+    container_name: "${LD_CONTAINER_NAME:-linkding}"
     image: sissbruecker/linkding:latest
     ports:
-      - "{{ ld_host_port }}:9090"
+      - "${LD_HOST_PORT:-9090}:9090"
     volumes:
-      - "{{ ld_host_data_dir }}:/etc/linkding/data"
+      - "${LD_HOST_DATA_DIR:-./linkding}:/etc/linkding/data"
     env_file:
       - .env
     restart: unless-stopped
