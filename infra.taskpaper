@@ -1,11 +1,12 @@
 Inbox:
 	- run apps locally to test litestream replication @na
 Ansible:
-	- pass ssh to docker container for git operations @na
 	- make it so I never get banned for failed ssh attempts @na
 Terraform:
 	- hook up ansible @na
 Archive:
+	- install forgejo from binary @na @done(2025-04-22 14:23)
+	- pass ssh to docker container for git operations @na @done(2025-04-22 14:22)
 	- playbook for forgejo @na @done(2025-04-21 23:54)
 	- playbook for linkding @na @done(2025-04-21 21:23)
 	- anubis installation and config @na @done(2025-04-21 21:23)
