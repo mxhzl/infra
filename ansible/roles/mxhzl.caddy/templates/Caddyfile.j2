@@ -3,7 +3,9 @@ links.mxhzl.com {
 }
 
 git.mxhzl.com {
-        reverse_proxy localhost:3001
+        reverse_proxy localhost:3001 {
+                header_up X-Real-Ip {remote_host}
+        }
 }
 
 # Refer to the Caddy docs for more information:
