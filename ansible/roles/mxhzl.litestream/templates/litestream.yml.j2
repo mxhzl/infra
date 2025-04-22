@@ -1,0 +1,11 @@
+access-key-id: {{ litestream_access_key_id }}
+secret-access-key: {{ litestream_secret_access_key }}
+
+dbs:
+  - path: /data/linkding/db.sqlite3
+    replicas:
+      - type: s3
+        bucket: mk-linkding
+        path: linkding_replica.sqlite3
+        endpoint: s3.us-east-005.backblazeb2.com
+        force-path-style: true
