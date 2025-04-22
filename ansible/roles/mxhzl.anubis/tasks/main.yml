@@ -1,8 +1,8 @@
 - name: Download anubis
   ansible.builtin.get_url:
-    url: https://github.com/TecharoHQ/anubis/releases/download/v1.16.0/anubis_1.16.0_amd64.deb
+    url: https://github.com/TecharoHQ/anubis/releases/download/v{{anubis_version}}/anubis_{{anubis_version}}_amd64.deb
     dest: /home/maxine/
 
 - name: Install anubis.deb package
   ansible.builtin.apt:
-    deb: /home/maxine/anubis_1.16.0_amd64.deb
+    deb: /home/maxine/anubis_{{anubis_version}}_amd64.deb

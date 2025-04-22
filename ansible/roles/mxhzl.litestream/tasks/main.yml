@@ -10,5 +10,5 @@
     command: replicate
     state: started
     volumes:
-      - /mnt/mxhzl:/data
+      - "{{mount_dir}}:/data"
       - /home/maxine/litestream.yml:/etc/litestream.yml

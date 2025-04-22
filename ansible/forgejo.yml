@@ -9,11 +9,15 @@
   - role: mxhzl.litestream
   - role: mxhzl.anubis
   tasks:
-  - name: Copy docker-compose.yml
-    template:
-      src: templates/forgejo-docker-compose.yml.j2
-      dest: "{{ forgejo_dir }}/docker-compose.yml"
 
+  - name: Install required system packages
+    apt:
+      pkg:
+        - git
+        - git-lfs
+      state: latest
+      update_cache: true   
+ 
   - name: Copy forgejo anubis .env file
     template:
       src: templates/anubis-forgejo.env.j2
@@ -23,8 +27,69 @@
     service:
       enabled: true
       state: started
-      name: anubis@forgejo.service  
+      name: anubis@forgejo.service
 
-  - name: Create and start services
-    community.docker.docker_compose_v2:
-      project_src: forgejo
+  - name: Download forgejo binary
+    get_url:
+      url: https://codeberg.org/forgejo/forgejo/releases/download/v{{forgejo_version}}/forgejo-{{forgejo_version}}-linux-amd64
+      dest: /usr/local/bin/forgejo
+      mode: '755'
+
+  - name: Download forgejo gpg key
+    get_url:
+      url: https://codeberg.org/forgejo/forgejo/releases/download/v{{forgejo_version}}/forgejo-{{forgejo_version}}-linux-amd64.asc
+      dest: /home/maxine/forgejo/forgejo-{{forgejo_version}}-linux-amd64.asc
+
+  - name: Add key to keyserver
+    ansible.builtin.command: gpg --keyserver keys.openpgp.org --recv EB114F5E6C0DC2BCDD183550A4B61A2DC5923710
+
+  - name: verify forgejo gpg key
+    ansible.builtin.command: gpg --verify /home/maxine/forgejo/forgejo-{{forgejo_version}}-linux-amd64.asc /usr/local/bin/forgejo
+
+  - name: Ensure group "git" exists
+    group:
+      name: git
+      state: present
+      system: true
+
+  - name: Create git user
+    user: 
+      name: git
+      shell: /bin/bash
+      system: true
+      create_home: true
+      group: git
+      comment: "Git Version Control"
+      home: /home/git
+
+  - name: create forgejo data directory
+    ansible.builtin.file:
+      path: "{{forgejo_dir}}"
+      state: directory
+      mode: '750'
+      owner: git
+      group: git
+
+  - name: create forgejo config directory
+    ansible.builtin.file:
+      path: /etc/forgejo
+      state: directory
+      mode: '770'
+      owner: root
+      group: git
+
+  - name: Copy forgejo service file
+    template:
+      src: templates/forgejo.service.j2
+      dest: "/etc/systemd/system/forgejo.service"
+
+  - name: Copy forgejo config file
+    template:
+      src: templates/forgejo-app.ini.j2
+      dest: "/etc/forgejo/app.ini"
+
+  - name: start forgejo service
+    service:
+      state: started
+      enabled: yes
+      name: forgejo
