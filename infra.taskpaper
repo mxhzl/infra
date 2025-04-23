@@ -1,6 +1,9 @@
 Inbox:
 	- run apps locally to test litestream replication @na
 Ansible:
+	- move litestream replicas into one b2 bucket @na
+	- better host config @na
+	- better organization for playbooks @na
 	- make it so I never get banned for failed ssh attempts @na
 Terraform:
 	- hook up ansible @na

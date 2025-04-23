@@ -1,0 +1,28 @@
+---
+- hosts: production
+  remote_user: "{{ admin_user }}"
+  become: yes
+  roles:
+  - role: mxhzl.vault
+  - role: mxhzl.docker
+  - role: mxhzl.caddy
+  - role: mxhzl.anubis
+  tasks:
+  - name: Copy pronouns anubis .env file
+    template:
+      src: templates/anubis-pronouns.env.j2
+      dest: "/etc/anubis/pronouns.env"
+
+  - name: Make sure anubis is running
+    service:
+      enabled: true
+      state: started
+      name: anubis@pronouns.service  
+
+  - name: Start pronouns container
+    community.docker.docker_container:
+      name: pronouns
+      image: reg.xeiaso.net/xe/pronouns
+      state: started
+      ports:
+        - "4000:3000"
