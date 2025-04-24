@@ -24,5 +24,6 @@
       name: pronouns
       image: reg.xeiaso.net/xe/pronouns
       state: started
+      restart_policy: unless-stopped
       ports:
         - "4000:3000"
