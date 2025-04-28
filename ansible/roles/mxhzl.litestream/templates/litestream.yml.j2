@@ -5,7 +5,7 @@ dbs:
   - path: /data/linkding/db.sqlite3
     replicas:
       - type: s3
-        bucket: mk-linkding
+        bucket: mk-litestream
         path: linkding_replica.sqlite3
         endpoint: s3.us-east-005.backblazeb2.com
         force-path-style: true
@@ -13,7 +13,7 @@ dbs:
   - path: /data/forgejo/data/forgejo.db
     replicas:
       - type: s3
-        bucket: mk-forgejo
+        bucket: mk-litestream
         path: forgejo_replica.sqlite3
         endpoint: s3.us-east-005.backblazeb2.com
         force-path-style: true
