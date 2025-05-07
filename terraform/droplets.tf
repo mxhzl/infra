@@ -44,3 +44,9 @@ resource "digitalocean_volume_attachment" "mxhzl" {
   droplet_id = digitalocean_droplet.mxhzl.id
   volume_id  = digitalocean_volume.mxhzl.id
 }
+
+resource "digitalocean_container_registry" "mxhzl" {
+  name                   = "mxhzl"
+  subscription_tier_slug = "starter"
+  region = "nyc3"
+}
