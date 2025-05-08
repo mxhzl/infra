@@ -1,43 +1,50 @@
 - name: Install aptitude
-  apt:
+  ansible.builtin.apt:
     name: aptitude
-    state: latest
+    state: present
     update_cache: true
 
 - name: Install required system packages
-  apt:
+  ansible.builtin.apt:
     pkg:
       - apt-transport-https
       - ca-certificates
       - curl
       - software-properties-common
       - virtualenv
-    state: latest
+    state: present
     update_cache: true
 
 - name: Add Docker GPG apt Key
-  apt_key:
+  ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
 - name: Add Docker Repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu focal stable
     state: present
 
 - name: Update apt and install docker-ce
-  apt:
+  ansible.builtin.apt:
     name: docker-ce
-    state: latest
+    state: present
     update_cache: true
 
-- name: check docker is active
-  service:
+- name: Check docker is active
+  ansible.builtin.service:
     name: docker
     state: started
-    enabled: yes
+    enabled: true
 
 - name: Ensure group "docker" exists
-  group:
+  ansible.builtin.group:
     name: docker
     state: present
+
+- name: Log into digitalocean registry and force re-authorization
+  community.docker.docker_login:
+    registry_url: registry.digitalocean.com
+    username: krebs.maxine@pm.me
+    password: "{{ do_token }}"
+    reauthorize: true

@@ -1,0 +1,69 @@
+---
+- name: Playbook for deploying The Mind Electric rails app
+  hosts: production
+  remote_user: "{{ admin_user }}"
+  become: true
+  roles:
+    - role: mxhzl.vault
+    - role: mxhzl.docker
+    - role: mxhzl.caddy
+    - role: mxhzl.litestream
+    - role: mxhzl.anubis
+  tasks:
+    - name: Create directory for docker compose file
+      ansible.builtin.file:
+        path: "{{ mind_electric_dir }}"
+        state: directory
+        mode: '755'
+
+    - name: Copy mind_electric .env file
+      ansible.builtin.template:
+        src: templates/mind_electric.env.j2
+        dest: "{{ mind_electric_dir }}/.env"
+        mode: '644'
+
+    - name: Copy mind_electric docker-compose file
+      ansible.builtin.template:
+        src: templates/mind_electric-docker-compose.yml.j2
+        dest: "{{ mind_electric_dir }}/docker-compose.yml"
+        mode: '644'
+
+    - name: Copy mind_electric anubis .env file
+      ansible.builtin.template:
+        src: templates/anubis-mind_electric.env.j2
+        dest: "/etc/anubis/mind_electric.env"
+        mode: '644'
+
+    - name: Make sure anubis is running
+      ansible.builtin.service:
+        enabled: true
+        state: started
+        name: anubis@mind_electric.service
+
+    - name: Ensure group "rails" exists
+      ansible.builtin.group:
+        name: rails
+        state: present
+        system: true
+
+    - name: Create rails user
+      ansible.builtin.user:
+        name: rails
+        shell: /bin/bash
+        system: true
+        create_home: true
+        group: rails
+        comment: "rails user"
+        home: /home/rails
+
+    - name: Create mind_electric data directory
+      ansible.builtin.file:
+        path: "{{ mount_dir }}/mind_electric"
+        state: directory
+        mode: '755'
+        owner: rails
+        group: rails
+
+    - name: Create and start services
+      community.docker.docker_compose_v2:
+        project_src: "{{ mind_electric_dir }}"

@@ -3,10 +3,13 @@ admin_user: maxine
 admin_user_key: https://github.com/mxhzl.keys
 
 mount_dir: /mnt/mxhzl
+home_dir: "/home/{{admin_user}}"
 
 anubis_version: 1.17.0
 
-linkding_dir: "/home/{{admin_user}}/linkding"
+linkding_dir: "{{home_dir}}/linkding"
 
 forgejo_version: 11.0.0
 forgejo_dir: "{{mount_dir}}/forgejo"
+
+mind_electric_dir: "{{home_dir}}/mind_electric"

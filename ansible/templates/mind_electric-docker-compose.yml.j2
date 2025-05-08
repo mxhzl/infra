@@ -1,0 +1,11 @@
+services:
+  mind_electric:
+    container_name: "${CONTAINER_NAME:-mind_electric}"
+    image: registry.digitalocean.com/mxhzl/mind_electric:latest
+    ports:
+      - "${HOST_PORT:-80}:80"
+    volumes:
+      - "${HOST_DATA_DIR:-./mind_electric}:/storage"
+    env_file:
+      - .env
+    restart: unless-stopped
