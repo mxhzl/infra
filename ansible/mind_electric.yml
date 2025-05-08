@@ -42,3 +42,4 @@
     - name: Create and start services
       community.docker.docker_compose_v2:
         project_src: "{{ mind_electric_dir }}"
+        pull: always
