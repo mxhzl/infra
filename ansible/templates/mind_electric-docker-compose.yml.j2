@@ -5,7 +5,10 @@ services:
     ports:
       - "${HOST_PORT:-80}:80"
     volumes:
-      - "${HOST_DATA_DIR:-./mind_electric}:/storage"
+      - mind_electric_storage:/rails/storage
     env_file:
       - .env
     restart: unless-stopped
+  
+volumes:
+  mind_electric_storage:

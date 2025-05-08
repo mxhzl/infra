@@ -7,7 +7,6 @@
     - role: mxhzl.vault
     - role: mxhzl.docker
     - role: mxhzl.caddy
-    - role: mxhzl.litestream
     - role: mxhzl.anubis
   tasks:
     - name: Create directory for docker compose file
@@ -39,30 +38,6 @@
         enabled: true
         state: started
         name: anubis@mind_electric.service
-
-    - name: Ensure group "rails" exists
-      ansible.builtin.group:
-        name: rails
-        state: present
-        system: true
-
-    - name: Create rails user
-      ansible.builtin.user:
-        name: rails
-        shell: /bin/bash
-        system: true
-        create_home: true
-        group: rails
-        comment: "rails user"
-        home: /home/rails
-
-    - name: Create mind_electric data directory
-      ansible.builtin.file:
-        path: "{{ mount_dir }}/mind_electric"
-        state: directory
-        mode: '755'
-        owner: rails
-        group: rails
 
     - name: Create and start services
       community.docker.docker_compose_v2:
