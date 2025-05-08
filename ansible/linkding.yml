@@ -1,35 +1,59 @@
 ---
-- hosts: production
+- name: Playbook to deploy linkding
+  hosts: production
   remote_user: "{{ admin_user }}"
-  become: yes
+  become: true
   roles:
-  - role: mxhzl.vault
-  - role: mxhzl.docker
-  - role: mxhzl.caddy
-  - role: mxhzl.litestream
-  - role: mxhzl.anubis
+    - role: mxhzl.vault
+    - role: mxhzl.docker
+    - role: mxhzl.caddy
+    - role: mxhzl.anubis
   tasks:
-  - name: Copy linkding .env file
-    template:
-      src: templates/linkding.env.j2
-      dest: "{{linkding_dir }}/.env"
+    - name: Create directory for docker compose file
+      ansible.builtin.file:
+        path: "{{ linkding_compose_dir }}"
+        state: directory
+        mode: "775"
+        owner: "{{ admin_user }}"
+        group: "{{ admin_user }}"
 
-  - name: Copy linkding docker-compose file
-    template:
-      src: templates/linkding-docker-compose.yml.j2
-      dest: "{{ linkding_dir }}/docker-compose.yml"
+    - name: Create linkding data directory
+      ansible.builtin.file:
+        path: "{{ linkding_data_dir }}"
+        state: directory
+        mode: "755"
+        owner: www-data
+        group: www-data
 
-  - name: Copy linkding anubis .env file
-    template:
-      src: templates/anubis-linkding.env.j2
-      dest: "/etc/anubis/linkding.env"
+    - name: Copy linkding .env file
+      ansible.builtin.template:
+        src: templates/linkding.env.j2
+        dest: "{{ linkding_compose_dir }}/.env"
+        mode: "644"
+        owner: "{{ admin_user }}"
+        group: "{{ admin_user }}"
 
-  - name: Make sure anubis is running
-    service:
-      enabled: true
-      state: started
-      name: anubis@linkding.service  
+    - name: Copy linkding docker-compose file
+      ansible.builtin.template:
+        src: templates/linkding-docker-compose.yml.j2
+        dest: "{{ linkding_compose_dir }}/docker-compose.yml"
+        mode: "644"
+        owner: "{{ admin_user }}"
+        group: "{{ admin_user }}"
 
-  - name: Create and start services
-    community.docker.docker_compose_v2:
-      project_src: "{{ linkding_dir }}"
+    - name: Copy linkding anubis .env file
+      ansible.builtin.template:
+        src: templates/anubis-linkding.env.j2
+        dest: "/etc/anubis/linkding.env"
+        mode: "644"
+
+    - name: Make sure anubis is running
+      ansible.builtin.service:
+        enabled: true
+        state: started
+        name: anubis@linkding.service
+
+    - name: Create and start containers
+      community.docker.docker_compose_v2:
+        project_src: "{{ linkding_compose_dir }}"
+        pull: missing

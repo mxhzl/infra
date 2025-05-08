@@ -13,25 +13,33 @@
       ansible.builtin.file:
         path: "{{ mind_electric_dir }}"
         state: directory
-        mode: '755'
+        mode: "775"
+        owner: "{{ admin_user }}"
+        group: "{{ admin_user }}"
 
     - name: Copy mind_electric .env file
       ansible.builtin.template:
         src: templates/mind_electric.env.j2
         dest: "{{ mind_electric_dir }}/.env"
-        mode: '644'
+        mode: "644"
+        owner: "{{ admin_user }}"
+        group: "{{ admin_user }}"
 
     - name: Copy mind_electric docker-compose file
       ansible.builtin.template:
         src: templates/mind_electric-docker-compose.yml.j2
         dest: "{{ mind_electric_dir }}/docker-compose.yml"
-        mode: '644'
+        mode: "644"
+        owner: "{{ admin_user }}"
+        group: "{{ admin_user }}"
 
     - name: Copy mind_electric anubis .env file
       ansible.builtin.template:
         src: templates/anubis-mind_electric.env.j2
         dest: "/etc/anubis/mind_electric.env"
-        mode: '644'
+        mode: "644"
+        owner: "{{ admin_user }}"
+        group: "{{ admin_user }}"
 
     - name: Make sure anubis is running
       ansible.builtin.service:
@@ -42,4 +50,4 @@
     - name: Create and start services
       community.docker.docker_compose_v2:
         project_src: "{{ mind_electric_dir }}"
-        pull: always
+        pull: missing

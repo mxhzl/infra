@@ -1,8 +1,9 @@
 Inbox:
 	- run apps locally to test litestream replication @na
 Ansible:
+	- sqlite to postgres migration @na
+	- investigate podman for deploys @na
 	- play around with hosting blog on do server @na
-	- make it so I never get banned for failed ssh attempts @na
 Terraform:
 	- hook up ansible @na
 Archive:

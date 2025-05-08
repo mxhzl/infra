@@ -90,6 +90,6 @@
 
   - name: start forgejo service
     service:
-      state: started
+      state: reloaded
       enabled: yes
       name: forgejo

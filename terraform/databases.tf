@@ -16,9 +16,9 @@ resource "digitalocean_database_firewall" "mxhzl" {
   }
 }
 
-resource "digitalocean_database_user" "mind_electric" {
+resource "digitalocean_database_user" "linkding" {
   cluster_id = digitalocean_database_cluster.mxhzl.id
-  name       = "mind_electric"
+  name       = "linkding"
 }
 
 resource "digitalocean_database_db" "mind_electric_production" {
@@ -39,4 +39,9 @@ resource "digitalocean_database_db" "mind_electric_production_queue" {
 resource "digitalocean_database_db" "mind_electric_production_cable" {
   cluster_id = digitalocean_database_cluster.mxhzl.id
   name       = "mind_electric_production_cable"
+}
+
+resource "digitalocean_database_db" "linkding" {
+  cluster_id = digitalocean_database_cluster.mxhzl.id
+  name       = "linkding"
 }
