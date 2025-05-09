@@ -1,95 +1,103 @@
 ---
-- hosts: production
+- name: Playbook for deploying forgejo
+  hosts: production
   remote_user: "{{ admin_user }}"
-  become: yes
+  become: true
   roles:
-  - role: mxhzl.vault
-  - role: mxhzl.docker
-  - role: mxhzl.caddy
-  - role: mxhzl.litestream
-  - role: mxhzl.anubis
+    - role: mxhzl.vault
+    - role: mxhzl.caddy
+    - role: mxhzl.anubis
   tasks:
+    - name: Install required system packages
+      ansible.builtin.apt:
+        pkg:
+          - git
+          - git-lfs
+        state: present
+        update_cache: true
 
-  - name: Install required system packages
-    apt:
-      pkg:
-        - git
-        - git-lfs
-      state: latest
-      update_cache: true   
- 
-  - name: Copy forgejo anubis .env file
-    template:
-      src: templates/anubis-forgejo.env.j2
-      dest: "/etc/anubis/forgejo.env"
+    - name: Copy forgejo anubis .env file
+      ansible.builtin.template:
+        src: templates/anubis-forgejo.env.j2
+        dest: "/etc/anubis/forgejo.env"
+        mode: "644"
 
-  - name: Make sure anubis is running
-    service:
-      enabled: true
-      state: started
-      name: anubis@forgejo.service
+    - name: Make sure anubis is running
+      ansible.builtin.service:
+        enabled: true
+        state: started
+        name: anubis@forgejo.service
 
-  - name: Download forgejo binary
-    get_url:
-      url: https://codeberg.org/forgejo/forgejo/releases/download/v{{forgejo_version}}/forgejo-{{forgejo_version}}-linux-amd64
-      dest: /usr/local/bin/forgejo
-      mode: '755'
+    - name: Download forgejo binary
+      ansible.builtin.get_url:
+        url: https://codeberg.org/forgejo/forgejo/releases/download/v{{ forgejo_version }}/forgejo-{{ forgejo_version }}-linux-amd64
+        dest: /usr/local/bin/forgejo
+        mode: "755"
 
-  - name: Download forgejo gpg key
-    get_url:
-      url: https://codeberg.org/forgejo/forgejo/releases/download/v{{forgejo_version}}/forgejo-{{forgejo_version}}-linux-amd64.asc
-      dest: /home/maxine/forgejo/forgejo-{{forgejo_version}}-linux-amd64.asc
+    - name: Download forgejo gpg key
+      ansible.builtin.get_url:
+        url: https://codeberg.org/forgejo/forgejo/releases/download/v{{ forgejo_version }}/forgejo-{{ forgejo_version }}-linux-amd64.asc
+        dest: /home/maxine/forgejo/forgejo-{{ forgejo_version }}-linux-amd64.asc
+        mode: "755"
 
-  - name: Add key to keyserver
-    ansible.builtin.command: gpg --keyserver keys.openpgp.org --recv EB114F5E6C0DC2BCDD183550A4B61A2DC5923710
+    - name: Add key to keyserver
+      ansible.builtin.command: gpg --keyserver keys.openpgp.org --recv EB114F5E6C0DC2BCDD183550A4B61A2DC5923710
+      register: result
+      changed_when: result.rc != 0
 
-  - name: verify forgejo gpg key
-    ansible.builtin.command: gpg --verify /home/maxine/forgejo/forgejo-{{forgejo_version}}-linux-amd64.asc /usr/local/bin/forgejo
+    - name: Verify forgejo gpg key
+      ansible.builtin.command: gpg --verify /home/maxine/forgejo/forgejo-{{ forgejo_version }}-linux-amd64.asc /usr/local/bin/forgejo
+      register: result
+      changed_when: result.rc != 0
 
-  - name: Ensure group "git" exists
-    group:
-      name: git
-      state: present
-      system: true
+    - name: Ensure group "git" exists
+      ansible.builtin.group:
+        name: git
+        state: present
+        system: true
 
-  - name: Create git user
-    user: 
-      name: git
-      shell: /bin/bash
-      system: true
-      create_home: true
-      group: git
-      comment: "Git Version Control"
-      home: /home/git
+    - name: Create git user
+      ansible.builtin.user:
+        name: git
+        shell: /bin/bash
+        system: true
+        create_home: true
+        group: git
+        comment: "Git Version Control"
+        home: /home/git
 
-  - name: create forgejo data directory
-    ansible.builtin.file:
-      path: "{{forgejo_dir}}"
-      state: directory
-      mode: '750'
-      owner: git
-      group: git
+    - name: Create forgejo data directory
+      ansible.builtin.file:
+        path: "{{ forgejo_data_dir }}"
+        state: directory
+        mode: "750"
+        owner: git
+        group: git
 
-  - name: create forgejo config directory
-    ansible.builtin.file:
-      path: /etc/forgejo
-      state: directory
-      mode: '770'
-      owner: root
-      group: git
+    - name: Create forgejo config directory
+      ansible.builtin.file:
+        path: /etc/forgejo
+        state: directory
+        mode: "750"
+        owner: root
+        group: git
 
-  - name: Copy forgejo service file
-    template:
-      src: templates/forgejo.service.j2
-      dest: "/etc/systemd/system/forgejo.service"
+    - name: Copy forgejo service file
+      ansible.builtin.template:
+        src: templates/forgejo.service.j2
+        dest: "/etc/systemd/system/forgejo.service"
+        mode: "644"
 
-  - name: Copy forgejo config file
-    template:
-      src: templates/forgejo-app.ini.j2
-      dest: "/etc/forgejo/app.ini"
+    - name: Copy forgejo config file
+      ansible.builtin.template:
+        src: templates/forgejo-app.ini.j2
+        dest: "/etc/forgejo/app.ini"
+        mode: "640"
+        owner: root
+        group: git
 
-  - name: start forgejo service
-    service:
-      state: reloaded
-      enabled: yes
-      name: forgejo
+    - name: Start forgejo service
+      ansible.builtin.service:
+        state: started
+        enabled: true
+        name: forgejo

@@ -55,13 +55,13 @@ RestartSec=2s
 Type=simple
 User=git
 Group=git
-WorkingDirectory={{forgejo_dir}}
+WorkingDirectory={{ forgejo_data_dir }}
 # If using Unix socket: tells systemd to create the /run/forgejo folder, which will contain the forgejo.sock file
 # (manually creating /run/forgejo doesn't work, because it would not persist across reboots)
 #RuntimeDirectory=forgejo
 ExecStart=/usr/local/bin/forgejo web --config /etc/forgejo/app.ini
 Restart=always
-Environment=USER=git HOME=/home/git FORGEJO_WORK_DIR={{forgejo_dir}}
+Environment=USER=git HOME=/home/git FORGEJO_WORK_DIR={{ forgejo_data_dir }}
 # If you install Git to directory prefix other than default PATH (which happens
 # for example if you install other versions of Git side-to-side with
 # distribution version), uncomment below line and add that prefix to PATH

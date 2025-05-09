@@ -1,12 +1,12 @@
 Inbox:
-	- run apps locally to test litestream replication @na
+	- switch to using do healthchecks @na
 Ansible:
-	- sqlite to postgres migration @na
 	- investigate podman for deploys @na
 	- play around with hosting blog on do server @na
 Terraform:
 	- hook up ansible @na
 Archive:
+	- sqlite to postgres migration @na @done(2025-05-08 20:22)
 	- move litestream replicas into one b2 bucket @na @done(2025-04-28 11:28)
 	- install forgejo from binary @na @done(2025-04-22 14:23)
 	- pass ssh to docker container for git operations @na @done(2025-04-22 14:22)

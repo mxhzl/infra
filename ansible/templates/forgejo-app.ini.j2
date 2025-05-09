@@ -1,23 +1,21 @@
 APP_NAME = Forgejo
 APP_SLOGAN = Beyond coding. We Forge.
 RUN_USER = git
-WORK_PATH = {{forgejo_dir}}
+WORK_PATH = {{ forgejo_data_dir }}
 RUN_MODE = prod
 
 [database]
-DB_TYPE = sqlite3
-HOST = 127.0.0.1:3306
-NAME = forgejo
+DB_TYPE = postgres
+HOST = {{ database_host }}:{{ database_port }}
+NAME = forgejodb
 USER = forgejo
-PASSWD =
-SCHEMA =
-SSL_MODE = disable
-PATH = {{forgejo_dir}}/data/forgejo.db
+PASSWD = {{ forgejo_database_password }}
+SCHEMA = public
+SSL_MODE = require
 LOG_SQL = false
-SQLITE_JOURNAL_MODE = WAL
 
 [repository]
-ROOT = {{forgejo_dir}}/data/forgejo-repositories
+ROOT = {{ forgejo_data_dir }}/data/forgejo-repositories
 DISABLE_HTTP_GIT = true
 
 [server]
@@ -25,7 +23,7 @@ SSH_DOMAIN = git.mxhzl.com
 DOMAIN = git.mxhzl.com
 HTTP_PORT = 3000
 ROOT_URL = https://git.mxhzl.com/
-APP_DATA_PATH = {{forgejo_dir}}/data
+APP_DATA_PATH = {{ forgejo_data_dir }}/data
 DISABLE_SSH = false
 SSH_PORT = 22
 LFS_START_SERVER = true
@@ -34,7 +32,7 @@ OFFLINE_MODE = true
 LANDING_PAGE = explore
 
 [lfs]
-PATH = {{forgejo_dir}}/data/lfs
+PATH = {{ forgejo_data_dir }}/data/lfs
 
 [mailer]
 ENABLED = false
@@ -64,7 +62,7 @@ PROVIDER = file
 [log]
 MODE = console
 LEVEL = info
-ROOT_PATH = {{forgejo_dir}}/log
+ROOT_PATH = {{ forgejo_data_dir }}/log
 
 [repository.pull-request]
 DEFAULT_MERGE_STYLE = merge
