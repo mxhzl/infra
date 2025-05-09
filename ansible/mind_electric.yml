@@ -11,7 +11,7 @@
   tasks:
     - name: Create directory for docker compose file
       ansible.builtin.file:
-        path: "{{ mind_electric_dir }}"
+        path: "{{ mind_electric_compose_dir }}"
         state: directory
         mode: "775"
         owner: "{{ admin_user }}"
@@ -20,7 +20,7 @@
     - name: Copy mind_electric .env file
       ansible.builtin.template:
         src: templates/mind_electric.env.j2
-        dest: "{{ mind_electric_dir }}/.env"
+        dest: "{{ mind_electric_compose_dir }}/.env"
         mode: "644"
         owner: "{{ admin_user }}"
         group: "{{ admin_user }}"
@@ -28,7 +28,7 @@
     - name: Copy mind_electric docker-compose file
       ansible.builtin.template:
         src: templates/mind_electric-docker-compose.yml.j2
-        dest: "{{ mind_electric_dir }}/docker-compose.yml"
+        dest: "{{ mind_electric_compose_dir }}/docker-compose.yml"
         mode: "644"
         owner: "{{ admin_user }}"
         group: "{{ admin_user }}"
@@ -49,5 +49,5 @@
 
     - name: Create and start services
       community.docker.docker_compose_v2:
-        project_src: "{{ mind_electric_dir }}"
+        project_src: "{{ mind_electric_compose_dir }}"
         pull: missing

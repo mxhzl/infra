@@ -13,4 +13,5 @@ linkding_compose_dir: "{{ home_dir }}/linkding"
 forgejo_version: 11.0.0
 forgejo_data_dir: "{{ mount_dir }}/forgejo"
 
-mind_electric_dir: "{{ home_dir }}/mind_electric"
+mind_electric_version: 1.0.0
+mind_electric_compose_dir: "{{ home_dir }}/mind_electric"

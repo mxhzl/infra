@@ -1,7 +1,7 @@
 services:
   mind_electric:
     container_name: "${CONTAINER_NAME:-mind_electric}"
-    image: registry.digitalocean.com/mxhzl/mind_electric:latest
+    image: registry.digitalocean.com/mxhzl/mind_electric:{{ mind_electric_version }}
     ports:
       - "${HOST_PORT:-80}:80"
     volumes:
