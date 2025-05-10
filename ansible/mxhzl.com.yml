@@ -1,0 +1,14 @@
+---
+- name: Prepares server for my static website mxhzl.com
+  hosts: production
+  remote_user: "{{ admin_user }}"
+  become: true
+  roles:
+    - role: mxhzl.vault
+    - role: mxhzl.caddy
+  tasks:
+    - name: Ensure file server directory exists
+      ansible.builtin.file:
+        path: "{{ file_server_dir }}/mxhzl"
+        state: directory
+        mode: "0777"

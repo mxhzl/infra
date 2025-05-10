@@ -7,6 +7,8 @@ Required environment variables:
 `TF_VAR_b2_application_key_id`
 `TF_VAR_do_token`
 `VAULT_PASSWORD`
+`TF_VAR_porkbun_api_key`
+`TF_VAR_porkbun_secret_api_key`
 
 ```sh
 $ mise install

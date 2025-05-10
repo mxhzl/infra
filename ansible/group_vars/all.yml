@@ -15,3 +15,5 @@ forgejo_data_dir: "{{ mount_dir }}/forgejo"
 
 mind_electric_version: 1.0.0
 mind_electric_compose_dir: "{{ home_dir }}/mind_electric"
+
+file_server_dir: /var/www

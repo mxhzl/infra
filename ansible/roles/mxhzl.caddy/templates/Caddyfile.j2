@@ -1,3 +1,18 @@
+mxhzl.com {
+	root * {{ file_server_dir }}/mxhzl
+        encode
+        file_server
+
+        handle_errors {
+                rewrite * /{err.status_code}.html
+                file_server
+        }
+}
+
+www.mxhzl.com {
+	redir https://mxhzl.com{uri}
+}
+
 links.mxhzl.com {
         reverse_proxy localhost:9091
 }
@@ -15,6 +30,3 @@ pronouns.mxhzl.com {
 mood.mxhzl.com {
         reverse_proxy localhost:5001
 }
-
-# Refer to the Caddy docs for more information:
-# https://caddyserver.com/docs/caddyfile
