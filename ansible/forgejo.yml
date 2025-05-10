@@ -4,9 +4,9 @@
   remote_user: "{{ admin_user }}"
   become: true
   roles:
-    - role: mxhzl.vault
-    - role: mxhzl.caddy
-    - role: mxhzl.anubis
+    - role: vault
+    - role: caddy
+    - role: anubis
   tasks:
     - name: Install required system packages
       ansible.builtin.apt:

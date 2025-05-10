@@ -3,11 +3,11 @@ data "digitalocean_ssh_key" "ssh_key" {
 }
 
 resource "digitalocean_droplet" "mxhzl" {
-  image  = "ubuntu-24-04-x64"
-  name   = "mxhzl"
-  region = "nyc1"
-  size   = "s-1vcpu-1gb"
-  ipv6   = true
+  image   = "ubuntu-24-04-x64"
+  name    = "mxhzl"
+  region  = "nyc1"
+  size    = "s-1vcpu-1gb"
+  ipv6    = true
   backups = true
   backup_policy {
     plan    = "weekly"

@@ -1,73 +1,88 @@
----
-
-# See: https://github.com/georchestra/ansible/issues/55#issuecomment-588313638
-- name: Ensure setfacl is present (so "become_user:" in playbooks works for less privileged ones)
-  apt: name=acl state=present
-
-- name: Install unattended upgrades package and dependencies.
-  apt: pkg={{ packages }} state=present
-  vars:
-    packages:
+- name: Install packages and dependencies.
+  ansible.builtin.apt:
+    pkg:
+      - acl
       - unattended-upgrades
       - update-notifier-common
       - mailutils
+      - fail2ban
+    state: present
+    update_cache: true
 
 - name: Copy unattended-upgrades configuration files in place.
-  template:
-    src: "../templates/{{ item }}.j2"
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
     dest: "/etc/apt/apt.conf.d/{{ item }}"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   with_items:
     - 20auto-upgrades
     - 50unattended-upgrades
 
 - name: Ensure maintenance scripts directory exists
   become: true
-  file:
+  ansible.builtin.file:
     path: /opt/scripts
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
 - name: Copy script that will soft shutdown all services and reboot if a reboot is required
   become: true
-  template:
-    src: "../templates/reboot_if_required.sh"
-    dest: "/opt/scripts/reboot_if_required.sh"
+  ansible.builtin.template:
+    src: reboot_if_required.sh
+    dest: /opt/scripts/reboot_if_required.sh
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
-- name: Do the updates reboot (if required) every day at 5AM UTC (the server expected timezone), so it reboots at 2AM or 3AM in Brazil, and midnight or 1AM in Toronto
+- name: Do the update reboot if required
   become: true
-  cron:
+  ansible.builtin.cron:
     name: "Run reboot_if_required.sh"
     minute: 0
     hour: 5
     job: "/opt/scripts/reboot_if_required.sh"
     user: root
 
-- name: Configure ufw (firewall) to allow specific ports
-  become: yes
-  ufw: rule=allow port={{ item }}
-  with_items:
-    - 22
-    - 80
-    - 443
+- name: Reject everything and enable UFW
+  become: true
+  community.general.ufw:
+    state: enabled
+    policy: "reject"
   tags:
     - firewall
 
-- name: Enable ufw and load it on startup; reject any connections not on rules
-  become: yes
-  ufw: state=enabled policy=reject
+- name: Allow OpenSSH.
+  become: true
+  community.general.ufw:
+    rule: allow
+    name: "OpenSSH"
+  tags:
+    - firewall
+
+- name: Allow all access to tcp port 80
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: "80"
+    proto: tcp
+  tags:
+    - firewall
+
+- name: Allow all access to tcp port 443
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: "443"
+    proto: tcp
   tags:
     - firewall
 
 - name: Update SSH configuration to be more secure
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "/etc/ssh/sshd_config"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
@@ -78,8 +93,8 @@
     - regexp: "^PermitRootLogin"
       line: "PermitRootLogin no"
 
-- name: Install fail2ban.
-  apt: name=fail2ban state=present
-
 - name: Ensure fail2ban is running and enabled on boot.
-  service: name=fail2ban state=started enabled=yes
+  ansible.builtin.service:
+    name: fail2ban
+    state: started
+    enabled: true

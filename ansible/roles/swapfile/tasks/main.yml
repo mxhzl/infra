@@ -1,0 +1,36 @@
+- name: Create swap file
+  ansible.builtin.command: fallocate -l 2G /swapfile
+  become: true
+  ignore_errors: "{{ ansible_check_mode }}"
+  tags: swapfile
+  register: fallocate_output
+  changed_when: fallocate_output.rc != 0
+
+- name: Set swap file permissions
+  ansible.builtin.command: chmod 600 /swapfile
+  become: true
+  tags: swapfile
+  register: chmod_output
+  changed_when: chmod_output.rc != 0
+
+- name: Set swap file as swap space
+  ansible.builtin.command: mkswap /swapfile
+  become: true
+  tags: swapfile
+  register: mkswap_output
+  changed_when: mkswap_output.rc != 0
+
+- name: Enable the swap file
+  ansible.builtin.command: swapon /swapfile
+  become: true
+  tags: swapfile
+  register: swapon_output
+  changed_when: swapon_output.rc != 0
+
+- name: Add swap file entry to /etc/fstab
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    line: "/swapfile none swap sw 0 0"
+    state: present
+  become: true
+  tags: swapfile

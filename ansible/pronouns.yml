@@ -1,29 +1,33 @@
 ---
-- hosts: production
+- name: Install pronouns app
+  hosts: production
   remote_user: "{{ admin_user }}"
-  become: yes
+  become: true
   roles:
-  - role: mxhzl.vault
-  - role: mxhzl.docker
-  - role: mxhzl.caddy
-  - role: mxhzl.anubis
+    - role: vault
+    - role: docker
+    - role: caddy
+    - role: anubis
   tasks:
-  - name: Copy pronouns anubis .env file
-    template:
-      src: templates/anubis-pronouns.env.j2
-      dest: "/etc/anubis/pronouns.env"
+    - name: Copy pronouns anubis .env file
+      ansible.builtin.template:
+        src: templates/anubis-pronouns.env.j2
+        dest: "/etc/anubis/pronouns.env"
+        mode: "0644"
+        owner: "{{ admin_user }}"
+        group: "{{ admin_user }}"
 
-  - name: Make sure anubis is running
-    service:
-      enabled: true
-      state: started
-      name: anubis@pronouns.service  
+    - name: Make sure anubis is running
+      ansible.builtin.service:
+        enabled: true
+        state: started
+        name: anubis@pronouns.service
 
-  - name: Start pronouns container
-    community.docker.docker_container:
-      name: pronouns
-      image: reg.xeiaso.net/xe/pronouns
-      state: started
-      restart_policy: unless-stopped
-      ports:
-        - "4000:3000"
+    - name: Start pronouns container
+      community.docker.docker_container:
+        name: pronouns
+        image: reg.xeiaso.net/xe/pronouns
+        state: started
+        restart_policy: unless-stopped
+        ports:
+          - "4000:3000"

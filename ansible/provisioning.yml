@@ -1,15 +1,16 @@
-# These are the initial provisioning tasks. They are separated from the
-# rest so we can run them as root/vagrant/whichver user is provided by the
-# hosting facility.
 ---
-- hosts: production
-  gather_facts: no     # gathering facts (and Ansible in general) won't work until Python is installed
+- name: Install python
+  hosts: production
+  gather_facts: false # gathering facts (and Ansible in general) won't work until Python is installed
   tasks:
     - name: Install Python 3
-      raw: sudo apt-get update -qq && sudo apt-get install -qq python3
+      ansible.builtin.raw: sudo apt-get update -qq && sudo apt-get install -qq python3
+      register: raw_output
+      changed_when: raw_output.rc != 0
 
-- hosts: production
+- name: Run provisioning roles
+  hosts: production
   roles:
-    - role: mxhzl.user_setup
-    - role: mxhzl.security
-    - role: mxhzl.swapfile
+    - role: user_setup
+    - role: security
+    - role: swapfile

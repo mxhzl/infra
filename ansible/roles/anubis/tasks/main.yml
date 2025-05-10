@@ -1,0 +1,11 @@
+- name: Download anubis
+  ansible.builtin.get_url:
+    url: "https://github.com/TecharoHQ/anubis/releases/download/v{{ anubis_version }}/anubis_{{ anubis_version }}_amd64.deb"
+    dest: /home/maxine/
+    mode: "0644"
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
+
+- name: Install anubis.deb package
+  ansible.builtin.apt:
+    deb: "/home/maxine/anubis_{{ anubis_version }}_amd64.deb"

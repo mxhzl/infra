@@ -3,7 +3,7 @@ provider "digitalocean" {
 }
 
 provider "b2" {
-  application_key = var.b2_application_key
+  application_key    = var.b2_application_key
   application_key_id = var.b2_application_key_id
 }
 
@@ -15,17 +15,17 @@ provider "porkbun" {
 terraform {
   required_providers {
     digitalocean = {
-      source = "digitalocean/digitalocean"
+      source  = "digitalocean/digitalocean"
       version = "~> 2.0"
     }
 
     b2 = {
-      source = "Backblaze/b2"
+      source  = "Backblaze/b2"
       version = "0.10.0"
     }
 
     porkbun = {
-      source = "kyswtn/porkbun"
+      source  = "kyswtn/porkbun"
       version = "0.1.3"
     }
   }

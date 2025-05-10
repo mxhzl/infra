@@ -4,8 +4,8 @@
   remote_user: "{{ admin_user }}"
   become: true
   roles:
-    - role: mxhzl.vault
-    - role: mxhzl.caddy
+    - role: vault
+    - role: caddy
   tasks:
     - name: Ensure file server directory exists
       ansible.builtin.file:

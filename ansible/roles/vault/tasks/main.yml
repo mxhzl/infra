@@ -3,4 +3,4 @@
 # (tags or conditions)
 ---
 - name: Opens the vault
-  include_vars: vault.yml
+  ansible.builtin.include_vars: vault.yml

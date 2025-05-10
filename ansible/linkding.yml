@@ -4,10 +4,10 @@
   remote_user: "{{ admin_user }}"
   become: true
   roles:
-    - role: mxhzl.vault
-    - role: mxhzl.docker
-    - role: mxhzl.caddy
-    - role: mxhzl.anubis
+    - role: vault
+    - role: docker
+    - role: caddy
+    - role: anubis
   tasks:
     - name: Create directory for docker compose file
       ansible.builtin.file:
