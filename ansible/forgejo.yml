@@ -20,7 +20,7 @@
       ansible.builtin.template:
         src: templates/anubis-forgejo.env.j2
         dest: "/etc/anubis/forgejo.env"
-        mode: "644"
+        mode: "0644"
 
     - name: Make sure anubis is running
       ansible.builtin.service:
@@ -32,13 +32,13 @@
       ansible.builtin.get_url:
         url: https://codeberg.org/forgejo/forgejo/releases/download/v{{ forgejo_version }}/forgejo-{{ forgejo_version }}-linux-amd64
         dest: /usr/local/bin/forgejo
-        mode: "755"
+        mode: "0755"
 
     - name: Download forgejo gpg key
       ansible.builtin.get_url:
         url: https://codeberg.org/forgejo/forgejo/releases/download/v{{ forgejo_version }}/forgejo-{{ forgejo_version }}-linux-amd64.asc
         dest: /home/maxine/forgejo/forgejo-{{ forgejo_version }}-linux-amd64.asc
-        mode: "755"
+        mode: "0755"
 
     - name: Add key to keyserver
       ansible.builtin.command: gpg --keyserver keys.openpgp.org --recv EB114F5E6C0DC2BCDD183550A4B61A2DC5923710
@@ -70,7 +70,7 @@
       ansible.builtin.file:
         path: "{{ forgejo_data_dir }}"
         state: directory
-        mode: "750"
+        mode: "0750"
         owner: git
         group: git
 
@@ -78,7 +78,7 @@
       ansible.builtin.file:
         path: /etc/forgejo
         state: directory
-        mode: "750"
+        mode: "0750"
         owner: root
         group: git
 
@@ -86,13 +86,13 @@
       ansible.builtin.template:
         src: templates/forgejo.service.j2
         dest: "/etc/systemd/system/forgejo.service"
-        mode: "644"
+        mode: "0644"
 
     - name: Copy forgejo config file
       ansible.builtin.template:
         src: templates/forgejo-app.ini.j2
         dest: "/etc/forgejo/app.ini"
-        mode: "640"
+        mode: "0640"
         owner: root
         group: git
 

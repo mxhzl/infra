@@ -17,15 +17,6 @@ resource "digitalocean_droplet" "mxhzl" {
   ssh_keys = [
     data.digitalocean_ssh_key.ssh_key.id
   ]
-
-  connection {
-    host = self.ipv4_address
-    user = "root"
-    type = "ssh"
-    timeout = "2m"
-    agent_identity = "Rook"
-  }
-
 }
 
 resource "digitalocean_reserved_ip" "mxhzl" {

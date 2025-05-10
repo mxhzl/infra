@@ -13,7 +13,7 @@
       ansible.builtin.file:
         path: "{{ linkding_compose_dir }}"
         state: directory
-        mode: "775"
+        mode: "0775"
         owner: "{{ admin_user }}"
         group: "{{ admin_user }}"
 
@@ -21,7 +21,7 @@
       ansible.builtin.file:
         path: "{{ linkding_data_dir }}"
         state: directory
-        mode: "755"
+        mode: "0755"
         owner: www-data
         group: www-data
 
@@ -29,7 +29,7 @@
       ansible.builtin.template:
         src: templates/linkding.env.j2
         dest: "{{ linkding_compose_dir }}/.env"
-        mode: "644"
+        mode: "0644"
         owner: "{{ admin_user }}"
         group: "{{ admin_user }}"
 
@@ -37,7 +37,7 @@
       ansible.builtin.template:
         src: templates/linkding-docker-compose.yml.j2
         dest: "{{ linkding_compose_dir }}/docker-compose.yml"
-        mode: "644"
+        mode: "0644"
         owner: "{{ admin_user }}"
         group: "{{ admin_user }}"
 
@@ -45,7 +45,7 @@
       ansible.builtin.template:
         src: templates/anubis-linkding.env.j2
         dest: "/etc/anubis/linkding.env"
-        mode: "644"
+        mode: "0644"
 
     - name: Make sure anubis is running
       ansible.builtin.service:

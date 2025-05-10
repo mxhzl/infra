@@ -1,0 +1,5 @@
+- name: Install the Backblaze b2 cli
+  ansible.builtin.get_url:
+    url: https://github.com/Backblaze/B2_Command_Line_Tool/releases/latest/download/b2-linux
+    dest: /usr/local/bin/b2
+    mode: '0771'

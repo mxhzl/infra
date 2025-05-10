@@ -2,12 +2,18 @@
 
 Repo for storing the Terraform/Ansible files for my server needs.
 
+Required environment variables:
+`TF_VAR_b2_application_key`
+`TF_VAR_b2_application_key_id`
+`TF_VAR_do_token`
+`VAULT_PASSWORD`
+
 ```sh
 $ mise install
 $ cd terraform
 $ terraform init
 $ terraform login
-$ terraform plan|apply -var "do_token=$DO_PAT"
+$ terraform plan|apply -var-file=production.tfvars
 ```
 
 After running terraform, you will have to set up [permissions](https://docs.digitalocean.com/products/databases/postgresql/how-to/modify-user-privileges/) for all the database users that were created, and set them as owners of their respective databases. Get the connection info from digital ocean's dashboard.

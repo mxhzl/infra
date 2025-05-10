@@ -1,0 +1,14 @@
+- name: Install required system packages
+  ansible.builtin.apt:
+    pkg:
+      - unzip
+    state: present
+    update_cache: true
+
+- name: Install the 1Password cli
+  ansible.builtin.unarchive:
+    src: https://cache.agilebits.com/dist/1P/op2/pkg/v2.31.0/op_linux_amd64_v2.31.0.zip
+    dest: /usr/local/bin
+    include: ["op"]
+    remote_src: true
+    mode: "0755"
