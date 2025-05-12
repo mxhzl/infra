@@ -91,11 +91,3 @@ resource "porkbun_dns_record" "ipv6-mood" {
   content  = digitalocean_droplet.mxhzl.ipv6_address
   priority = 0
 }
-
-resource "porkbun_dns_record" "login" {
-  domain   = "mxhzl.com"
-  name     = "login"
-  type     = "CNAME"
-  content  = "dev-hm81qsxxgomohk7k-cd-ajodorookt4lchcs.edge.tenants.us.auth0.com"
-  priority = 0
-}
