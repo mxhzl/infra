@@ -30,11 +30,18 @@ terraform {
     }
   }
 
-  cloud {
-    organization = "mxhzl"
+  encryption {
+    key_provider "pbkdf2" "key" {
+      passphrase = var.passphrase
+    }
 
-    workspaces {
-      name = "mxhzl_com"
+    method "aes_gcm" "secure_method" {
+      keys = key_provider.pbkdf2.key
+    }
+
+    state {
+      method   = method.aes_gcm.secure_method
+      enforced = true
     }
   }
 }

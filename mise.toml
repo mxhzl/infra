@@ -2,5 +2,5 @@
 _.file = ".env.json"
 
 [tools]
+opentofu = "latest"
 python = "latest"
-terraform = "latest"

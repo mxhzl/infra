@@ -17,3 +17,7 @@ variable "porkbun_api_key" {
 variable "porkbun_secret_api_key" {
   sensitive = true
 }
+
+variable "passphrase" {
+  sensitive = true
+}
