@@ -12,8 +12,9 @@
 **/.terraform/*
 
 # .tfstate files
-*.tfstate
-*.tfstate.*
+# My .tfstate files are encypted now so they should be fine to commit
+# *.tfstate
+# *.tfstate.*
 
 # Crash log files
 crash.log
