@@ -45,5 +45,7 @@ $ ssh username@serverip
 $ forgejo admin user create --username admin --random-password --access-token --admin --email test@example.com
 $ docker compose exec linkding python manage.py createsuperuser --username=admin --email=test@example.com
 $ docker compose exec mind_electric bin/rails c
-> User.create!(email_address: "test@example.com", password: "admin", password_confirmation: "admin")
+> user = User.new(email: "test@example.com", password: "admin", password_confirmation: "admin")
+> user.save
+> user.confirm
 ```
