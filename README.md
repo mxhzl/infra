@@ -12,10 +12,9 @@ Required environment variables:
 
 ```sh
 $ mise install
-$ cd terraform
-$ terraform init
-$ terraform login
-$ terraform plan|apply -var-file=production.tfvars
+$ cd tofu
+$ tofu init
+$ tofu plan|apply
 ```
 
 After running terraform, you will have to set up [permissions](https://docs.digitalocean.com/products/databases/postgresql/how-to/modify-user-privileges/) for all the database users that were created, and set them as owners of their respective databases. Get the connection info from digital ocean's dashboard.
