@@ -45,6 +45,6 @@
 - name: Log into digitalocean registry and force re-authorization
   community.docker.docker_login:
     registry_url: registry.digitalocean.com
-    username: krebs.maxine@pm.me
+    username: krebs.maxine@gmail.com
     password: "{{ do_token }}"
     reauthorize: true
