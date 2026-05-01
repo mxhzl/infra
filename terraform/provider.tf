@@ -2,6 +2,10 @@ provider "digitalocean" {
   token = var.do_token
 }
 
+provider "aiven" {
+  api_token = var.aiven_token
+}
+
 provider "porkbun" {
   api_key        = var.porkbun_api_key
   secret_api_key = var.porkbun_secret_api_key
@@ -17,6 +21,11 @@ terraform {
     porkbun = {
       source  = "kyswtn/porkbun"
       version = "0.1.3"
+    }
+
+    aiven = {
+      source  = "aiven/aiven"
+      version = ">= 4.0.0, < 5.0.0"
     }
   }
 

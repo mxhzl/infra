@@ -1,6 +1,27 @@
 # This file is maintained automatically by "terraform init".
 # Manual edits may be lost in future updates.
 
+provider "registry.terraform.io/aiven/aiven" {
+  version     = "4.55.2"
+  constraints = ">= 4.0.0, < 5.0.0"
+  hashes = [
+    "h1:i/xTMVYA1Gh2sGkU7kZ0bg19818cZYqRFM+vwgUk/w8=",
+    "zh:0461bb14b87818cea4e62ce87279f6fb4ae60bf940306f646c613e44d5648815",
+    "zh:117ce9ea59fa29177ad1ae834d893f1788dc2f8139d60f61ddf03cccba3804a9",
+    "zh:3748e4b1272f7a08fb75c274a996cdd30a2e728360a65df38242fdcb37586a69",
+    "zh:58060d053853cb89263d0fae917952b0095cb4f077914c08f40b145e5fcc4b61",
+    "zh:5f7d94643fe1144169d0d36cacff23fe2c63847adbc92bb55b66ef305dd25550",
+    "zh:63494b603831536bd78e28895dfacc43b45b6dc48fb7142f5b42bd20e853cc9c",
+    "zh:91df0ca23e716ab051de2f8541f9b4788d54114a813f95d47136624da7637020",
+    "zh:c0cb67d3f101b6574f8a9f1ecb1f0b845dbb30403ccc264e15d500fc8b257578",
+    "zh:c5f593d74bfa5cbd6cfb3eb37ebddc44d87b5ac654524a00a780d93ba936a92c",
+    "zh:d258d0295acca697d770ea8e1701019ce231ac96f3458b6bb7dfe8a8d2835df3",
+    "zh:db1fc81d9850769707e97b786975c5eadbd61ddd1fe9062e832c3d26d34f50ad",
+    "zh:db461094019d2afff3a428d08736b917013bc84744d4eec95a63b51c76aaa1b5",
+    "zh:ead4d0637d960ac1f9885ececf3e258d90655bc5b906380e7873563d8f854ca6",
+  ]
+}
+
 provider "registry.terraform.io/digitalocean/digitalocean" {
   version     = "2.85.0"
   constraints = "~> 2.0"
