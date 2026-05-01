@@ -2,9 +2,9 @@ data "digitalocean_ssh_key" "ssh_key" {
   name = "Rook"
 }
 
-resource "digitalocean_droplet" "mxhzl" {
+resource "digitalocean_droplet" "hexware" {
   image   = "ubuntu-24-04-x64"
-  name    = "mxhzl"
+  name    = "hexware"
   region  = "nyc1"
   size    = "s-1vcpu-1gb"
   ipv6    = true
@@ -19,7 +19,7 @@ resource "digitalocean_droplet" "mxhzl" {
   ]
 }
 
-resource "digitalocean_reserved_ip" "mxhzl" {
-  droplet_id = digitalocean_droplet.mxhzl.id
-  region     = digitalocean_droplet.mxhzl.region
+resource "digitalocean_reserved_ip" "hexware" {
+  droplet_id = digitalocean_droplet.hexware.id
+  region     = digitalocean_droplet.hexware.region
 }

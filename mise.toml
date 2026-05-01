@@ -3,3 +3,4 @@ _.file = ".env.json"
 
 [tools]
 python = "latest"
+terraform = "latest"
