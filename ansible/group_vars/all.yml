@@ -2,7 +2,7 @@
 admin_user: maxine
 admin_user_key: https://github.com/mxhzl.keys
 
-mount_dir: /mnt/mxhzl
+mount_dir: /mnt/hexware
 home_dir: "/home/{{ admin_user }}"
 
 anubis_version: 1.17.0

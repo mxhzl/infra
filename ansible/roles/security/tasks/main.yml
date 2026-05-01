@@ -47,14 +47,6 @@
     job: "/opt/scripts/reboot_if_required.sh"
     user: root
 
-- name: Reject everything and enable UFW
-  become: true
-  community.general.ufw:
-    state: enabled
-    policy: "reject"
-  tags:
-    - firewall
-
 - name: Allow OpenSSH.
   become: true
   community.general.ufw:
@@ -78,6 +70,14 @@
     rule: allow
     port: "443"
     proto: tcp
+  tags:
+    - firewall
+
+- name: Reject everything and enable UFW
+  become: true
+  community.general.ufw:
+    state: enabled
+    policy: "reject"
   tags:
     - firewall
 

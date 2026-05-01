@@ -26,6 +26,6 @@ terraform {
     workspaces {
       name = "hexware"
     }
-    
+
   }
 }

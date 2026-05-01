@@ -1,28 +1,9 @@
-mxhzl.com {
-	root * {{ file_server_dir }}/mxhzl
-        encode
-        file_server
-
-        handle_errors {
-                rewrite * /{err.status_code}.html
-                file_server
-        }
-}
-
-www.mxhzl.com {
-	redir https://mxhzl.com{uri}
-}
-
-links.mxhzl.com {
+links.hexware.dev {
         reverse_proxy localhost:9091
 }
 
-git.mxhzl.com {
+git.hexware.dev {
         reverse_proxy localhost:3001 {
                 header_up X-Real-Ip {remote_host}
         }
-}
-
-mood.mxhzl.com {
-        reverse_proxy localhost:5001
 }
